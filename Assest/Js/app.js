@@ -83,6 +83,9 @@ clearBtn.addEventListener('click', async(e) => {
                 e.target.innerHTML = 'Clear';
                 e.target.classList.remove('grey');
                 location.reload();
+                clearBtn.style.display = 'none'
+                copyBtn.style.display = 'none'
+                saveBtn.style.display = 'block'
             }, 1200);
         } catch (error) {
             console.error("Error removing document: ", error);
