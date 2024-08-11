@@ -62,25 +62,31 @@ const getTextFunc = async() => {
 }
 getTextFunc()
 clearBtn.addEventListener('click', async(e) => {
+    let id = e.target.id;  // The document ID should be here
+    if (id) {
+        // Create the correct document reference
+        let docRef = doc(db, 'text', id);
 
-    // Correct document reference
-    let id = e.target.id;
-    let docRef = doc(db, 'text', id);
+        console.log("Attempting to delete document with ID:", id);
 
-    try {
-        await deleteDoc(docRef);
-        e.target.innerHTML = 'Clearing'
-        e.target.classList.add('grey')
-        setTimeout(() =>{
-            e.target.innerHTML = 'Clear'
-            e.target.classList.remove('grey')
-        location.reload()
-        }, 1200)
-    } catch (error) {
-        console.error("Error removing document: ", error);
+        try {
+            await deleteDoc(docRef);  // Delete the document
+            console.log("Document deleted:", id);
+            e.target.innerHTML = 'Clearing';
+            e.target.classList.add('grey');
+            setTimeout(() => {
+                e.target.innerHTML = 'Clear';
+                e.target.classList.remove('grey');
+                location.reload();
+            }, 1200);
+        } catch (error) {
+            console.error("Error removing document: ", error);
+        }
+    } else {
+        console.error("No document ID found for deletion.");
     }
-
 });
+
 
 
 
