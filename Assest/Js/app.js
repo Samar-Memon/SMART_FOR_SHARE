@@ -3,120 +3,109 @@ import {
     collection,
     addDoc,
     getDocs,
-    db,
     deleteDoc,
     doc
-} from './firebase.js'
+} from './firebase.js';
 
-let textarea = document.getElementById('text')
-let textCollection = collection(db, "text");
+const db = getFirestore();
+const textCollection = collection(db, "text");
 
+let textarea = document.getElementById('text');
+let saveBtn = document.querySelector('.save');
+let copyBtn = document.querySelector('.copy');
+let clearBtn = document.querySelector('.clear');
 
+let currentDocId = null; // Variable to store the ID of the current document
 
-let saveBtn = document.querySelector('.save')
-let copyBtn = document.querySelector('.copy')
-let clearBtn = document.querySelector('.clear')
-
-
-const setDataFunc = async() => {
+const setDataFunc = async () => {
     let text4Set = textarea.value.trim();
-    if(text4Set.length > 0){
-
-    saveBtn.innerHTML = 'Saving...'
-    try {
-        const docRef = await addDoc(textCollection, {
-          text: text4Set
-        });
-    saveBtn.innerHTML = 'Save'
-    saveBtn.style.color = '#ccc'
-    saveBtn.style.borderColor = '#ccc'
-    clearBtn.setAttribute('id', docRef.id)
-
-    getTextFunc()
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    }else{
+    if (text4Set.length > 0) {
+        saveBtn.innerHTML = 'Saving...';
+        try {
+            // Save the new document
+            const docRef = await addDoc(textCollection, { text: text4Set });
+            currentDocId = docRef.id; // Update the current document ID
+            saveBtn.innerHTML = 'Save';
+            saveBtn.style.color = '#ccc';
+            saveBtn.style.borderColor = '#ccc';
+            getTextFunc(); // Refresh text list and UI
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    } else {
         Swal.fire("TextArea's Value is Empty?");
     }
 }
 
-textarea.addEventListener('input', () => {
-    saveBtn.style.color = '#364bcd'
-    saveBtn.style.borderColor = '#364bcd'
-})
+const getTextFunc = async () => {
+    // Retrieve documents and set the textarea to the last added document
+    const querySnapshot = await getDocs(textCollection);
+    let latestDoc = null;
+
+    querySnapshot.forEach((doc) => {
+        latestDoc = doc; // Get the latest document
+    });
+
+    if (latestDoc) {
+        textarea.value = latestDoc.data().text;
+        currentDocId = latestDoc.id; // Set the current document ID
+        saveBtn.style.display = 'none';
+        clearBtn.style.display = 'block';
+        copyBtn.style.display = 'block';
+        clearBtn.style.color = '#364bcd';
+        clearBtn.style.borderColor = '#364bcd';
+    } else {
+        textarea.value = '';
+        currentDocId = null; // No document selected
+        saveBtn.style.display = 'block';
+        clearBtn.style.display = 'none';
+        copyBtn.style.display = 'none';
+    }
+}
 
 saveBtn.addEventListener('click', () => {
-    if(navigator.onLine){
-    setDataFunc()
-    }else{
-        Swal.fire('Network Problem!')
-    }
-})
-const getTextFunc = async() => {
-    const querySnapshot = await getDocs(textCollection);
-    querySnapshot.forEach((doc) => {
-        textarea.value = doc.data().text
-        saveBtn.style.display = 'none'
-        clearBtn.style.display = 'block'
-        copyBtn.style.display = 'block'
-        clearBtn.style.color = '#364bcd'
-        clearBtn.style.borderColor = '#364bcd'
-    });
-}
-getTextFunc()
-clearBtn.addEventListener('click', async(e) => {
-   if(navigator.onLine){
-    let id = e.target.id;  // The document ID should be here
-    if (id) {
-        // Create the correct document reference
-        let docRef = doc(db, 'text', id);
-
-        console.log("Attempting to delete document with ID:", id);
-
-        try {
-            await deleteDoc(docRef);  // Delete the document
-            console.log("Document deleted:", id);
-            e.target.innerHTML = 'Clearing';
-            e.target.classList.add('grey');
-            setTimeout(() => {
-                e.target.innerHTML = 'Clear';
-                e.target.classList.remove('grey');
-                location.reload();
-                clearBtn.style.display = 'none'
-                copyBtn.style.display = 'none'
-                saveBtn.style.display = 'block'
-            }, 1200);
-        } catch (error) {
-            console.error("Error removing document: ", error);
-        }
+    if (navigator.onLine) {
+        setDataFunc();
     } else {
-        console.error("No document ID found for deletion.");
+        Swal.fire('Network Problem!');
     }
-   }else{
-    Swal.fire('Network Problem!') 
-   }
 });
 
-
-
-
-getTextFunc()
-
-window.onload = ()=> {
-    getTextFunc()
-}
+clearBtn.addEventListener('click', async () => {
+    if (navigator.onLine) {
+        if (currentDocId) {
+            let docRef = doc(db, 'text', currentDocId);
+            try {
+                await deleteDoc(docRef);
+                console.log("Document deleted:", currentDocId);
+                clearBtn.innerHTML = 'Clearing';
+                clearBtn.classList.add('grey');
+                setTimeout(() => {
+                    clearBtn.innerHTML = 'Clear';
+                    clearBtn.classList.remove('grey');
+                    getTextFunc(); // Refresh the text list
+                }, 1200);
+            } catch (error) {
+                console.error("Error removing document: ", error);
+            }
+        } else {
+            console.error("No document ID found for deletion.");
+        }
+    } else {
+        Swal.fire('Network Problem!');
+    }
+});
 
 copyBtn.addEventListener('click', () => {
-    let textToCopy = textarea.value.trim(); // Textarea ka text trim kar ke le lo
+    let textToCopy = textarea.value.trim();
     if (textToCopy.length > 0) {
         navigator.clipboard.writeText(textToCopy).then(() => {
-            copyBtn.innerHTML = 'Copied'
-            copyBtn.classList.add('grey')
+            copyBtn.innerHTML = 'Copied';
+            copyBtn.classList.add('grey');
             setTimeout(() => {
-            copyBtn.innerHTML = 'Copy'
-            copyBtn.classList.remove('grey')
-            }, 1500)
+                copyBtn.innerHTML = 'Copy';
+                copyBtn.classList.remove('grey');
+            }, 1500);
         }).catch(err => {
             console.error("Failed to copy text to clipboard: ", err);
         });
@@ -125,7 +114,7 @@ copyBtn.addEventListener('click', () => {
     }
 });
 
-
-document.querySelector('.files_div').addEventListener('click', () => {
-    Swal.fire('COMING SOON! (Files Area)')
-})
+// Initialize on page load
+window.onload = () => {
+    getTextFunc();
+} 
