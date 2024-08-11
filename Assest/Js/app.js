@@ -47,7 +47,11 @@ textarea.addEventListener('input', () => {
 })
 
 saveBtn.addEventListener('click', () => {
+    if(navigator.onLine){
     setDataFunc()
+    }else{
+        Swal.fire('Network Problem!')
+    }
 })
 const getTextFunc = async() => {
     const querySnapshot = await getDocs(textCollection);
@@ -62,6 +66,7 @@ const getTextFunc = async() => {
 }
 getTextFunc()
 clearBtn.addEventListener('click', async(e) => {
+   if(navigator.onLine){
     let id = e.target.id;  // The document ID should be here
     if (id) {
         // Create the correct document reference
@@ -85,6 +90,9 @@ clearBtn.addEventListener('click', async(e) => {
     } else {
         console.error("No document ID found for deletion.");
     }
+   }else{
+    Swal.fire('Network Problem!') 
+   }
 });
 
 
