@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" href="./Assest/Css/style.css" />
+    <link rel="icon" href="./Assest/Img/logo.png">
+    <title>SMART FOR SHARE</title>
+</head>
+<body>
+    <div class="box">
+        <nav>
+            <a href="/index.html" class="logo">
+                <img src="./Assest/Img/logo.png" alt="Logo Image" width="150">
+            </a>
+            <ul class="menu_items">
+                <li><a href="https://github.com/samar-memon" target="_blank">Developed by <span class="blue">Samar Raza</span></a></li>
+            </ul>
+        </nav>
+        <div class="content_box">
+            <div class="sideBar">
+                <div class="text_div">
+                    <img src="./Assest/Img/text-color.svg" alt="">
+                </div>
+                <div class="files_div">
+                    <img src="./Assest/Img/files-grey.svg" alt="">
+                </div>
+            </div>
+            <div class="content_bar">
+                <div class="top">
+                    <h1>TEXT</h1>
+                </div>
+                <div class="bottom">
+                    <textarea id="text" placeholder="Type something..."></textarea>
+                </div>
+                <div class="btns">
+                    <button class="clear">Clear</button>
+                    <button class="copy">Copy</button>
+                    <button class="save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const textarea = document.querySelector('textarea');
+
+        textarea.addEventListener('input', function () {
+            this.style.height = 'auto'; // Reset height
+            this.style.height = this.scrollHeight + 'px'; // Set new height based on content
+        });
+
+        // Initialize the height on page load
+        textarea.style.height = textarea.scrollHeight + 'px';
+
+    </script>
+
+<script type="module" src="./Assest/Js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</body>
+</html>
