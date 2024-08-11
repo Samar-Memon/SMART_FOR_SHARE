@@ -15,20 +15,19 @@ let saveBtn = document.querySelector('.save');
 let copyBtn = document.querySelector('.copy');
 let clearBtn = document.querySelector('.clear');
 
-let currentDocId = null; // Variable to store the ID of the current document
+let currentDocId = null;
 
 const setDataFunc = async () => {
     let text4Set = textarea.value.trim();
     if (text4Set.length > 0) {
         saveBtn.innerHTML = 'Saving...';
         try {
-            // Save the new document
             const docRef = await addDoc(textCollection, { text: text4Set });
-            currentDocId = docRef.id; // Update the current document ID
+            currentDocId = docRef.id;
             saveBtn.innerHTML = 'Save';
             saveBtn.style.color = '#ccc';
             saveBtn.style.borderColor = '#ccc';
-            getTextFunc(); // Refresh text list and UI
+            getTextFunc();
         } catch (e) {
             console.error("Error adding document: ", e);
         }
@@ -38,17 +37,16 @@ const setDataFunc = async () => {
 }
 
 const getTextFunc = async () => {
-    // Retrieve documents and set the textarea to the last added document
     const querySnapshot = await getDocs(textCollection);
     let latestDoc = null;
 
     querySnapshot.forEach((doc) => {
-        latestDoc = doc; // Get the latest document
+        latestDoc = doc;
     });
 
     if (latestDoc) {
         textarea.value = latestDoc.data().text;
-        currentDocId = latestDoc.id; // Set the current document ID
+        currentDocId = latestDoc.id;
         saveBtn.style.display = 'none';
         clearBtn.style.display = 'block';
         copyBtn.style.display = 'block';
@@ -56,7 +54,7 @@ const getTextFunc = async () => {
         clearBtn.style.borderColor = '#364bcd';
     } else {
         textarea.value = '';
-        currentDocId = null; // No document selected
+        currentDocId = null;
         saveBtn.style.display = 'block';
         clearBtn.style.display = 'none';
         copyBtn.style.display = 'none';
@@ -83,7 +81,7 @@ clearBtn.addEventListener('click', async () => {
                 setTimeout(() => {
                     clearBtn.innerHTML = 'Clear';
                     clearBtn.classList.remove('grey');
-                    getTextFunc(); // Refresh the text list
+                    getTextFunc();
                 }, 1200);
             } catch (error) {
                 console.error("Error removing document: ", error);
@@ -113,8 +111,6 @@ copyBtn.addEventListener('click', () => {
         alert("Textarea is empty!");
     }
 });
-
-// Initialize on page load
 window.onload = () => {
     getTextFunc();
 } 
