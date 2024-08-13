@@ -17,8 +17,10 @@ let copyBtn = document.querySelector('.copy');
 const  getText = async() => {
     const querySnapshot = await getDocs(collection(db, 'sent'));
   querySnapshot.forEach((doc) => {
-    if(sessionStorage.getItem('Recieve_KEY') == doc.data().res_id){
+    if(sessionStorage.getItem('Recieve_KEY') === doc.data().res_id){
         textarea.value = doc.data().content
+    }else{
+        Swal.fire('Key Not Match')
     }
     
     
