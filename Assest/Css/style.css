@@ -36,11 +36,12 @@ nav .menu_items a{
     text-decoration: none;
     color: #777;
 }
+nav .menu_items a:hover{
+    color: #364bcd;
+}
 nav .menu_items .blue{
     color: #364bcd;
     font-weight: bolder;
-    text-decoration: underline;
-    margin-left: 5px;
 }
 
 /* content_box */

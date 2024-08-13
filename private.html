@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <link rel="stylesheet" href="./Assest/Css/style.css" />
+    <link rel="stylesheet" href="./Assest/Css/prv.css" />
+    <link rel="icon" href="./Assest/Img/logo.png">
+    <title>SMART FOR SHARE</title>
+</head>
+<body>
+    <div class="box">
+        <nav>
+            <a href="/index.html" class="logo">
+                <img src="./Assest/Img/logo.png" alt="Logo Image" width="150">
+            </a>
+            <ul class="menu_items">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/private.html" class="blue">Sent's Private</a></li>
+                <li><a href="#">GITHUB <span class="blue"><i class="fa-brands fa-github"></i></span></a></li>
+            </ul>
+        </nav>
+        <div class="content_box">
+            <div class="buttons">
+                <button id="sentBtn">SENT</button>
+                <button id="recieveBtn">RECIEVE</button>
+            </div>
+            <div class="key_box">
+                <div class="sent_box">
+                    <h1>Sent Key</h1>
+                    <p>Set your Sent Key.</p>
+                    <input type="text" placeholder="Enter Key.">
+                    <button id="sentKey">Submit</button>
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <div class="recieve_box">
+                    <h1>Recive Key</h1>
+                    <p>Enter Recieve Key.</p>
+                    <input type="text" placeholder="Enter Key.">
+                    <button id="recieveKey">Submit</button>
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./Assest/Js/prv.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+</html>

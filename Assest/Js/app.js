@@ -113,4 +113,4 @@ copyBtn.addEventListener('click', () => {
 });
 window.onload = () => {
     getTextFunc();
-} 
+}

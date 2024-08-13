@@ -1,0 +1,75 @@
+.content_box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+.content_box .buttons{
+    display: flex;
+    gap: 20px;
+}
+.content_box button{
+    padding: 20px 80px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #364bcd;
+    border: 4px solid#364bcd;
+    background-color: transparent;
+    font-weight: bolder;
+}
+.content_box button:hover{
+    color: #fff;
+    background-color: #364bcd;
+    border-color: #aaa;
+}
+.key_box{
+    max-width: 500px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+.key_box h1{
+    font-size: 40px;
+    color: #364bcd;
+}
+.sent_box,.recieve_box{
+    position: relative;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 3px 4px 20px #111;
+    padding: 20px;
+    border-radius: 6px;
+}
+.key_box i{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    background-color: red;
+    color: #fff;
+    cursor: pointer;
+    top: 5px;
+    right: 5px;
+}
+.key_box input{
+    padding: 20px 10px;
+    border: 1px solid #aaa;
+    font-size: 18px;
+    color: #aaa;
+}
+::placeholder{
+    color: #aaa;
+}
+
+@media (max-width: 550px) {
+    .buttons button{
+        padding: 10px 40px;
+    }   
+}
