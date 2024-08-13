@@ -58,6 +58,8 @@ recieveKey.addEventListener('click', async() => {
         if(recieve_key_value == doc.data().res_id){
             location.replace('./recieve.html')
             sessionStorage.setItem('Recieve_KEY', doc.data().res_id)
+        }else{
+        Swal.fire('Key Not Match') 
         }
       });
 
